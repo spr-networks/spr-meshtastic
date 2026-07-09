@@ -1,0 +1,16 @@
+{
+  "Name": "spr-meshtastic",
+  "ComposeFilePath": "plugins/user/spr-meshtastic/docker-compose.yml",
+  "UnixPath": "/state/plugins/spr-meshtastic/socket",
+  "URI": "spr-meshtastic",
+  "HasUI": true,
+  "Icon": "RadioIcon",
+  "SandboxedUI": false,
+  "InstallTokenPath": "/configs/plugins/spr-meshtastic/api-token",
+  "NetworkCapabilities": {
+    "Interface": "spr-meshtastic",
+    "Policies": ["lan"],
+    "Groups": []
+  },
+  "Enabled": true
+}

@@ -1,0 +1,40 @@
+version: '3.4'
+
+x-labels:
+  &default-labels
+  # constant (not $CI) so digests are reproducible across CI/local
+  org.supernetworks.ci: "true"
+  org.supernetworks.version: ${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+
+services:
+  spr-meshtastic:
+    container_name: spr-meshtastic
+    image: ghcr.io/spr-networks/spr-meshtastic:${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+    build:
+      context: "${BUILDCTX:-.}"
+      labels: *default-labels
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      meshtasticnet:
+    # Serial (USB) mode is opt-in: uncomment the two blocks below to pass a
+    # Meshtastic node attached to the router's USB port into the container,
+    # then set ConnectionMode "serial" + SerialDevice "/dev/ttyUSB0" in the
+    # plugin settings. The default TCP mode needs no devices or extra groups.
+    #devices:
+    #  - /dev/ttyUSB0:/dev/ttyUSB0
+    #group_add:
+    #  - dialout
+    volumes:
+      - "${SUPERDIR}./state/plugins/spr-meshtastic:/state/plugins/spr-meshtastic"
+      - "${SUPERDIR}./state/public/:/state/public/:ro"
+      - "${SUPERDIR}./state/api/:/state/api/:ro"
+      - "${SUPERDIR}./configs/base/config.sh:/configs/base/config.sh:ro"
+      - "${SUPERDIR}./configs/plugins/spr-meshtastic:/configs/spr-meshtastic"
+
+# Note, if updating the bridge name,
+# also update NetworkCapabilities.Interface in plugin.json and install.sh
+networks:
+  meshtasticnet:
+    driver_opts:
+      com.docker.network.bridge.name: spr-meshtastic
