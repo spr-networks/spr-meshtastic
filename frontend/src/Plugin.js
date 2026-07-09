@@ -148,6 +148,9 @@ export default function Plugin() {
       <ListHeader
         title="Meshtastic"
         description="LoRa mesh gateway — bridge a Meshtastic node to your router"
+        mark="mt"
+        status={connected ? 'Connected' : configured ? 'Offline' : 'Not configured'}
+        statusAction={connected ? 'success' : configured ? 'warning' : 'muted'}
       >
         <Button size="sm" onPress={() => refresh(true)} isDisabled={refreshing}>
           <ButtonText>{refreshing ? 'Refreshing...' : 'Refresh'}</ButtonText>
