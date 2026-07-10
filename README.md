@@ -30,6 +30,7 @@ Two ways to reach a node:
 - Rolling message log (persisted in the plugin state dir)
 - Primary channel URL display (share/QR link of the mesh channel)
 - Strictly validated connection settings (RFC1918 IP or `/dev/tty...` device)
+- Contributes the LoRa mesh (gateway + peers) to SPR's topology view
 
 ## UI install
 
@@ -83,6 +84,22 @@ SPR API at `/plugins/spr-meshtastic/<path>` with a valid SPR session/token.
 | GET    | `/config`   | Current connection config + `Configured` flag. |
 | PUT    | `/config`   | `{"ConnectionMode": "tcp"\|"serial", "Host": "...", "SerialDevice": "..."}` (validated, see below). |
 | GET    | `/channel`  | Primary + complete channel share URLs. |
+| GET    | `/topology` | Topology graph for SPR's topology view: `{"Nodes":[...],"Edges":[...]}` (see below). |
+
+### Topology
+
+The plugin sets `"HasTopology": true` and contributes its mesh to SPR's router
+topology view. `GET /topology` returns a graph anchored at a `root` node
+(`ConnType: "lora"`) that the SPR host merges into the router topology:
+
+- one **gateway** node (`Kind: "gateway"`) for the Meshtastic device the plugin
+  drives, named after the node's long name, online while the plugin can reach it
+- one node per mesh peer (`Kind: "node"`, long/short name, `Online` when the
+  peer was heard within the last 2 hours)
+- edges peer → gateway → root, `Layer/Kind: "lora"`
+
+When the plugin is unconfigured or the node is unreachable, it returns just the
+root anchor (`{"Nodes":[root],"Edges":[]}`) so the host view stays consistent.
 
 ### Message log / RX limitation
 

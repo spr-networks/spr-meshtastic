@@ -4,6 +4,7 @@
   "UnixPath": "/state/plugins/spr-meshtastic/socket",
   "URI": "spr-meshtastic",
   "HasUI": true,
+  "HasTopology": true,
   "Icon": "Radio",
   "SandboxedUI": false,
   "InstallTokenPath": "/configs/plugins/spr-meshtastic/api-token",

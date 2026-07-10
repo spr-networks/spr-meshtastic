@@ -244,6 +244,7 @@ func main() {
 	mux.HandleFunc("GET /config", handleGetConfig)
 	mux.HandleFunc("PUT /config", handlePutConfig)
 	mux.HandleFunc("GET /channel", handleChannel)
+	mux.HandleFunc("GET /topology", handleTopology)
 	mux.Handle("/", spaHandler{staticPath: "/ui", indexPath: "index.html"})
 
 	os.Remove(UnixPluginSocket)
