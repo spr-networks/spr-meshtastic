@@ -1,5 +1,7 @@
 # spr-meshtastic
 
+<img width="850" alt="spr-meshtastic UI preview" src="docs/screenshot.png" />
+
 A [Meshtastic](https://meshtastic.org) LoRa mesh gateway plugin for
 [SPR](https://github.com/spr-networks/super) (Secure Programmable Router).
 It bridges a Meshtastic node to the router: see who's on the mesh, watch
