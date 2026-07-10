@@ -39,7 +39,8 @@ Two ways to reach a node:
 1. In the SPR UI go to **Plugins → + New Plugin** and add
    `https://github.com/spr-networks/spr-meshtastic`.
 2. Open **spr-meshtastic** at the bottom of the left-hand menu.
-3. Under *Connection settings* pick **Network (TCP)** and enter the LAN IP of
+3. Assign the Meshtastic node to the `meshstatic` device group.
+4. Under *Connection settings* pick **Network (TCP)** and enter the LAN IP of
    your Meshtastic node (enable WiFi + "TCP" / network API on the node with
    the Meshtastic app first), then **Save settings**.
 
@@ -142,9 +143,10 @@ a shell.
 - **No extra capabilities** — no `NET_ADMIN`, no tun devices, no sysctls, and
   `no-new-privileges` is set. Serial mode adds exactly one host device plus the
   `dialout` group, and only if you uncomment it.
-- **`lan` policy only.** The container's bridge (`spr-meshtastic`) gets the
-  `lan` policy so it can reach the Meshtastic node on TCP 4403. It has no
-  `wan` or `dns` access — the pinned CLI runs fully offline.
+- **Group-only network access.** The container's bridge (`spr-meshtastic`) is
+  placed in the `meshstatic` group so it can reach only devices assigned to
+  that group. It has no `lan`, `wan`, or `dns` policy — the pinned CLI runs
+  fully offline.
 - Mounted from the host: the plugin's own state/config dirs (rw) and SPR's
   `state/public`, `state/api`, `configs/base/config.sh` (ro). Nothing else.
 

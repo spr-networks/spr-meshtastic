@@ -44,10 +44,10 @@ docker compose up -d
 CONTAINER_IP=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "spr-meshtastic")
 API=127.0.0.1
 
-# lan only: the container just needs to reach the Meshtastic node on the LAN
+# Group-only access: assign the Meshtastic node to meshstatic; no broad policy.
 curl "http://${API}/firewall/custom_interface" \
 -H "Authorization: Bearer ${SPR_API_TOKEN}" \
 -X 'PUT' \
---data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"spr-meshtastic\",\"Policies\":[\"lan\"]}"
+--data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"spr-meshtastic\",\"Policies\":[],\"Groups\":[\"meshstatic\"]}"
 
 docker compose restart

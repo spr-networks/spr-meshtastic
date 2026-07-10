@@ -10,8 +10,8 @@
   "InstallTokenPath": "/configs/plugins/spr-meshtastic/api-token",
   "NetworkCapabilities": {
     "Interface": "spr-meshtastic",
-    "Policies": ["lan"],
-    "Groups": []
+    "Policies": [],
+    "Groups": ["meshstatic"]
   },
   "Enabled": true
 }
