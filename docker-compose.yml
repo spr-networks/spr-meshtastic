@@ -36,5 +36,6 @@ services:
 # also update NetworkCapabilities.Interface in plugin.json and install.sh
 networks:
   meshtasticnet:
+    name: spr-meshtastic
     driver_opts:
       com.docker.network.bridge.name: spr-meshtastic
