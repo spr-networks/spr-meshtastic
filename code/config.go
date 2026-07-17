@@ -17,7 +17,7 @@ var TEST_PREFIX = os.Getenv("TEST_PREFIX")
 var (
 	ConfigFile       = TEST_PREFIX + "/configs/spr-meshtastic/config.json"
 	MessagesFile     = TEST_PREFIX + "/state/plugins/spr-meshtastic/messages.json"
-	UnixPluginSocket = TEST_PREFIX + "/state/plugins/spr-meshtastic/socket"
+	UnixPluginSocket = TEST_PREFIX + "/run/spr-krun-plugin/spr-meshtastic.sock"
 )
 
 const (

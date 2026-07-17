@@ -38,16 +38,32 @@ else
 fi
 chmod 600 "$SUPERDIR/configs/plugins/spr-meshtastic/config.json"
 
-./build_docker_compose.sh
-docker compose up -d
+KRUN_MAC="02:53:50:52:4b:09"
+KRUN_TAP="kmeshtastic0"
+curl --fail-with-body --silent --show-error "http://127.0.0.1/device?identity=${KRUN_MAC}" \
+  -H "Authorization: Bearer ${SPR_API_TOKEN}" -H "Content-Type: application/json" \
+  -X PUT --data-raw "{\"MAC\":\"${KRUN_MAC}\",\"Name\":\"spr-meshtastic\",\"Policies\":[\"lan\",\"dns\"],\"Groups\":[\"meshstatic\"]}" >/dev/null
+if ! sudo nft get element inet filter dhcp_access "{ \"${KRUN_TAP}\" . ${KRUN_MAC} }" >/dev/null 2>&1; then
+  sudo nft add element inet filter dhcp_access "{ \"${KRUN_TAP}\" . ${KRUN_MAC} : accept }"
+fi
 
-CONTAINER_IP=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "spr-meshtastic")
+./build_docker_compose.sh
+docker compose -f docker-compose-krun.yml up -d
+
+CONTAINER_IP=
+for _ in $(seq 1 30); do
+  CONTAINER_IP="$(jq -r --arg mac "$KRUN_MAC" '.[$mac].RecentIP // empty' "$SUPERDIR/state/public/devices-public.json")"
+  [ -n "$CONTAINER_IP" ] && break
+  sleep 1
+done
+[ -n "$CONTAINER_IP" ] || { echo "spr-meshtastic did not obtain an SPR DHCP lease" >&2; exit 1; }
 API=127.0.0.1
 
-# Group-only access: assign the Meshtastic node to meshstatic; no broad policy.
+# TCP mode needs LAN access to the Meshtastic node; the group remains attached
+# for policy selection and topology.
 curl "http://${API}/firewall/custom_interface" \
 -H "Authorization: Bearer ${SPR_API_TOKEN}" \
 -X 'PUT' \
---data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"spr-meshtastic\",\"Policies\":[],\"Groups\":[\"meshstatic\"]}"
+--data-raw "{\"SrcIP\":\"${CONTAINER_IP}\",\"Interface\":\"${KRUN_TAP}\",\"Policies\":[\"lan\",\"dns\"],\"Groups\":[\"meshstatic\"]}"
 
-docker compose restart
+docker compose -f docker-compose-krun.yml restart
