@@ -1,6 +1,6 @@
 {
   "Name": "spr-meshtastic",
-  "ComposeFilePath": "plugins/user/spr-meshtastic/docker-compose-krun.yml",
+  "Runtime": "kvm",
   "UnixPath": "/state/plugins/spr-meshtastic/socket",
   "URI": "spr-meshtastic",
   "HasUI": true,
