@@ -9,7 +9,7 @@
   "SandboxedUI": false,
   "InstallTokenPath": "/configs/plugins/spr-meshtastic/api-token",
   "NetworkCapabilities": {
-    "Interface": "kmeshtastic0",
+    "Interface": "spr-meshtastic",
     "DeviceMAC": "02:53:50:52:4b:09",
     "Policies": ["lan", "dns"],
     "Groups": ["meshstatic"]
