@@ -1,15 +1,16 @@
 {
   "Name": "spr-meshtastic",
-  "ComposeFilePath": "plugins/user/spr-meshtastic/docker-compose.yml",
+  "Runtime": "kvm",
   "UnixPath": "/state/plugins/spr-meshtastic/socket",
   "URI": "spr-meshtastic",
   "HasUI": true,
   "HasTopology": true,
   "Icon": "Radio",
-  "SandboxedUI": false,
+  "SandboxedUI": true,
   "NetworkCapabilities": {
     "Interface": "spr-meshtastic",
-    "Policies": [],
+    "DeviceMAC": "02:53:50:52:4b:09",
+    "Policies": ["lan", "dns"],
     "Groups": ["meshstatic"]
   },
   "Enabled": true
