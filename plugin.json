@@ -1,7 +1,7 @@
 {
   "Name": "spr-meshtastic",
   "Runtime": "kvm",
-  "UnixPath": "/state/plugins/spr-meshtastic/socket",
+  "UnixPath": "/state/plugins/spr-meshtastic/socket.sock",
   "URI": "spr-meshtastic",
   "HasUI": true,
   "HasTopology": true,

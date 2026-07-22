@@ -12,7 +12,7 @@ battery/SNR, and send text messages — all from the SPR UI.
 The plugin runs a small container with the official
 [Meshtastic Python CLI](https://github.com/meshtastic/python) and a Go backend
 that drives it. The backend listens on a unix socket
-(`/state/plugins/spr-meshtastic/socket`); SPR proxies
+(`/state/plugins/spr-meshtastic/socket.sock`); SPR proxies
 `/plugins/spr-meshtastic/...` to it and embeds the bundled React UI as an
 iframe under the Plugins menu. Nothing is exposed on the network.
 
