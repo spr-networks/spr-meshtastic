@@ -7,7 +7,6 @@
   "HasTopology": true,
   "Icon": "Radio",
   "SandboxedUI": false,
-  "InstallTokenPath": "/configs/plugins/spr-meshtastic/api-token",
   "NetworkCapabilities": {
     "Interface": "spr-meshtastic",
     "Policies": [],
