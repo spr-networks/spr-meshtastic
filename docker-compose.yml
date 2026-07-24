@@ -9,7 +9,7 @@ x-labels:
 services:
   spr-meshtastic:
     container_name: spr-meshtastic
-    image: ghcr.io/spr-networks/spr-meshtastic:${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+    image: ghcr.io/spr-networks/spr-meshtastic:latest
     build:
       context: "${BUILDCTX:-.}"
       labels: *default-labels
